@@ -1,4 +1,4 @@
-// https://leetcode.com/explore/learn/card/array-and-string/203/introduction-to-string/1160/
+// https://leetcode.com/explore/learn/card/array-and-string/203/introduction-to-string/1161/
 #include <bits/stdc++.h>
 #define ll long long
 using namespace std;
@@ -10,75 +10,45 @@ using namespace std;
 class Solution
 {
 public:
-    string addBinary(string a, string b)
+    vector<int> compute_lps(string &needle) // longest proper prefix which is also suffix
     {
-        SPEED;
-        if (a == "0")
-            return b;
-        else if (b == "0")
-            return a;
-        string sum = "";
-        pair<string, string> small_large = a.size() > b.size() ? pair<string, string>(b, a) : pair<string, string>(a, b);
-        bool carry = false;
-        int i, j;
-        int small_size = small_large.first.size();
-        int large_size = small_large.second.size();
-        for (i = small_size - 1, j = large_size - 1; i >= 0 && j >= 0; --i, --j)
+        vector<int> lps(needle.size());
+        int i = 1, j = 0;
+        lps[0] = 0;
+        while (i < needle.size())
         {
-            if (small_large.first[i] == '1' && small_large.second[j] == '1')
+            if (needle[i] == needle[j])
             {
-                if (carry)
-                    sum = '1' + sum;
-                else
-                    sum = '0' + sum;
-                carry = true;
-            }
-            else if (small_large.first[i] == '1' || small_large.second[j] == '1')
-            {
-                if (carry)
-                    sum = '0' + sum;
-                else
-                    sum = '1' + sum, carry = false;
+                ++j;
+                lps[i] = j;
+                ++i;
             }
             else
             {
-                if (carry)
-                    sum = '1' + sum;
+                if (j != 0)
+                {
+                    j = lps[j - 1];
+                }
                 else
-                    sum = '0' + sum;
-                carry = false;
+                {
+                    lps[i] = 0;
+                    ++i;
+                }
             }
         }
-        int remain = i >= 0 ? i : j;
-        if (remain >= 0)
-            for (; remain >= 0; --remain)
-            {
-                if (small_large.second[remain] == '1')
-                {
-                    if (carry)
-                        sum = '0' + sum;
-                    else
-                        sum = '1' + sum;
-                }
-                else
-                {
-                    if (carry)
-                        sum = '1' + sum, carry = false;
-                    else
-                        sum = '0' + sum;
-                }
-            }
+        return lps;
+    }
 
-        if (carry)
-            sum = '1' + sum;
-        return sum;
+    int strStr(string &haystack, string &needle)
+    {
+        cout << compute_lps(needle) << "\n";
     }
 };
 int main()
 {
-    string a, b;
-    cin >> a >> b;
-    string sum = Solution().addBinary(a, b);
+    string haystack, needle;
+    cin >> haystack >> needle;
+    string sum = Solution().strStr(haystack, needle);
 
     cout << sum << "\n";
 
