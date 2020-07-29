@@ -3,6 +3,8 @@
 #define ll long long
 using namespace std;
 
+static auto x = []() {ios_base::sync_with_stdio(false);cin.tie(NULL);return NULL; }();
+
 class Solution
 {
 public:

@@ -2,17 +2,14 @@
 #include <bits/stdc++.h>
 #define ll long long
 using namespace std;
-#define SPEED                         \
-    ios_base::sync_with_stdio(false); \
-    cin.tie(NULL);                    \
-    cout.tie(NULL);
+
+static auto x = []() {ios_base::sync_with_stdio(false);cin.tie(NULL);return NULL; }();
 
 class Solution
 {
 public:
     void reverseString(vector<char> &s)
     {
-        SPEED
         int i = 0;
         int j = s.size() - 1;
         while (i < j)

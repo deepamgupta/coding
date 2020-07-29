@@ -2,17 +2,14 @@
 #include <bits/stdc++.h>
 #define ll long long
 using namespace std;
-#define SPEED                         \
-    ios_base::sync_with_stdio(false); \
-    cin.tie(NULL);                    \
-    cout.tie(NULL);
+
+static auto x = []() {ios_base::sync_with_stdio(false);cin.tie(NULL);return NULL; }();
 
 class Solution
 {
 public:
     vector<vector<int>> generate(int numRows)
     {
-        SPEED;
         vector<vector<int>> pascals_triangle;
         if (numRows)
         {
