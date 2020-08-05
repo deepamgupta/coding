@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "*.html": "html",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "bitset": "cpp",
+        "string_view": "cpp"
     }
 }
