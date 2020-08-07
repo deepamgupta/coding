@@ -1,4 +1,4 @@
-// https://practice.geeksforgeeks.org/problems/find-missing-and-repeating/0
+// https://practice.geeksforgeeks.org/problems/inversion-of-array/0
 #include <bits/stdc++.h>
 using namespace std;
 #define ull long long unsigned int //0 to 18,446,744,073,709,551,615
@@ -7,47 +7,108 @@ using namespace std;
 #define ul unsigned long int       //0 to 4,294,967,295
 #define us unsigned short int      //0 to 65,535
 #define si short int               //	-32,768 to 32,767
-#define fori(_n1, _n2) for (size_t i = _n1; i < _n2; ++i)
-#define forj(_n1, _n2) for (size_t j = _n1; j < _n2; ++j)
+#define foi(_n1, _n2) for (int i = _n1; i < _n2; ++i)
+#define foj(_n1, _n2) for (int j = _n1; j < _n2; ++j)
 #define SPEED ios_base::sync_with_stdio(false), cin.tie(0), cout.tie(0)
 const unsigned int M = 1000000007;
 
-vector<int> repeatingAndMissing(vector<int> &v)
+ll countInversionsNaive(vector<ull> &v)
 {
-      set<int> repeating;
-      set<int> missing;
+    ll count = 0;
+    foi(0, v.size() - 1)
+        foj(i + 1, v.size()) if (v[i] > v[j])++count;
 
-      int n = v.size();
-      fori(0, n)
-      {
-            int key = abs(v[i]);
-            bool not_encountered = v[key - 1] > 0 ? true : false;
-            if (not_encountered)
-                  v[key - 1] = -v[key - 1];
-            else
-                  repeating.insert(key);
-      }
+    return count;
+}
 
-      fori(0, n) if (v[i] > 0) missing.insert(i + 1);
+ull merge(vector<ull> &v, ull left, ull mid, ull right)
+{
+    ull n = right - left + 1;
+    vector<ull> temp(n);
+    ull inversions = 0;
+    ull i = left, j = mid + 1, k = 0;
 
-      return {*(repeating.begin()), *(missing.begin())};
+    while (i <= mid && j <= right)
+    {
+        if (v[i] < v[j])
+            temp[k++] = v[i++];
+        else if (v[j] < v[i])
+            temp[k++] = v[j++], inversions += mid - i + 1;
+        else
+            temp[k++] = v[i++];
+    }
+
+    while (i <= mid)
+        temp[k++] = v[i++];
+    while (j <= right)
+        temp[k++] = v[j++];
+
+    for (int c = 0; c < n; ++c)
+        v[left + c] = temp[c];
+
+    return inversions;
+}
+
+ull countInversionWithMergeSort(vector<ull> &v, ull left, ull right)
+{
+    ull inversions = 0;
+    if (left < right)
+    {
+        ull mid = left + (right - left) / 2;
+        inversions += countInversionWithMergeSort(v, left, mid);
+        inversions += countInversionWithMergeSort(v, mid + 1, right);
+        inversions += merge(v, left, mid, right);
+    }
+    return inversions;
+}
+
+ull countInversionsFast(vector<ull> &v)
+{
+    return countInversionWithMergeSort(v, 0, v.size() - 1);
 }
 
 int main()
 {
-      SPEED;
-      int t;
-      cin >> t;
+    // Stress Testing
+    // while (true)
+    // {
+    //     ull n = rand() % 10 + 1;
+    //     vector<ull> v(n);
+    //     foi(0, n)
+    //     {
+    //         v[i] = rand() % 10 + 1;
+    //     }
+    //     for (ull c : v)
+    //         cout << c << " ";
+    //     cout << "\n";
 
-      while (t--)
-      {
-            int n;
-            cin >> n;
-            vector<int> v(n);
-            fori(0, n) cin >> v[i];
-            vector<int> ans = repeatingAndMissing(v);
-            cout << ans[0] << " " << ans[1] << "\n";
-      }
+    //     ull naive = countInversionsNaive(v);
+    //     ull fast = countInversionsFast(v);
+    //     for (ull c : v)
+    //         cout << c << " ";
+    //     cout << "\n";
+    //     cout << naive << " " << fast << "\n";
+    //     if (naive == fast)
+    //         cout << "OK\n";
+    //     else
+    //     {
+    //         cout << "Wrong Answer\n";
+    //         break;
+    //     }
+    // }
 
-      return 0;
+    SPEED;
+    int t;
+    cin >> t;
+
+    while (t--)
+    {
+        int n;
+        cin >> n;
+        vector<ull> v(n);
+        foi(0, n) cin >> v[i];
+        cout << countInversionsFast(v) << "\n";
+    }
+
+    return 0;
 }
