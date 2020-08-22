@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/4sum/
+// https://leetcode.com/problems/two-sum/
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -27,13 +27,6 @@ public:
         }
         return {0, 0};
     }
-
-public:
-    vector<vector<int>> fourSum(vector<int> &nums, int target)
-    {
-        
-        
-    }
 };
 
 int main()
@@ -48,14 +41,7 @@ int main()
         cin >> nums[i];
     }
 
-    vector<vector<int>> ans = Solution().fourSum(nums, target);
-    for (vector<int> quad : ans)
-    {
-        for (int e : quad)
-        {
-            cout << e << " ";
-        }
-        cout << "\n";
-    }
+    vector<int> ans = Solution().twoSum(nums, target);
+    cout << ans[0] << " " << ans[1];
     return 0;
 }
