@@ -1,48 +1,48 @@
-// https://practice.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1
-// { Driver Code Starts
+// https://www.geeksforgeeks.org/count-number-subarrays-given-xor/
 #include <bits/stdc++.h>
 using namespace std;
 
-int maxLen(int A[], int n);
-
-int main()
+int numOfSubArrays(vector<int> &arr, int &m)
 {
-    int T;
-    cin >> T;
-    while (T--)
+    int n = arr.size();
+    vector<int> xorFromStart(n);
+    xorFromStart[0] = arr[0];
+    for (int i = 1; i < n; ++i)
     {
-        int N;
-        cin >> N;
-        int A[N];
-        for (int i = 0; i < N; i++)
-            cin >> A[i];
-        cout << maxLen(A, N) << endl;
+        xorFromStart[i] = xorFromStart[i - 1] ^ arr[i];
     }
-}
-// } Driver Code Ends
 
-/*You are required to complete this function*/
-
-int maxLen(int A[], int n)
-{
-    map<int, int> m;
-    int sum = 0;
+    unordered_map<int, int> mp;
     int ans = 0;
     for (int i = 0; i < n; ++i)
     {
-        sum += A[i];
-        if (sum == 0)
+        if (xorFromStart[i] == m)
+            ++ans;
+
+        int required = m ^ xorFromStart[i];
+
+        if (mp.find(required) != mp.end())
         {
-            ans = i + 1;
+            ans += mp[required];
         }
-        else if (m.find(sum) != m.end())
-        {
-            ans = max(ans, i - m[sum]);
-        }
-        else
-        {
-            m[sum] = i;
-        }
+
+        ++mp[xorFromStart[i]];
     }
     return ans;
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    int m;
+    cin >> m;
+    vector<int> arr(n);
+    for (int i = 0; i < n; ++i)
+    {
+        cin >> arr[i];
+    }
+
+    cout << numOfSubArrays(arr, m);
+    return 0;
 }
