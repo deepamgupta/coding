@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/middle-of-the-linked-list/
+// https://leetcode.com/problems/xor-queries-of-a-subarray/
 #include <bits/stdc++.h>
 #define ll long long
 using namespace std;
