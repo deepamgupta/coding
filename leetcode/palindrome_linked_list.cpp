@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/sort-list/
+// https://leetcode.com/problems/palindrome-linked-list/
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -16,62 +16,59 @@ struct ListNode
 class Solution
 {
 public:
-    ListNode *sortList(ListNode *head)
+    bool isPalindrome(ListNode *head)
     {
         if (head == nullptr || head->next == nullptr)
-            return head;
+            return true;
 
+        ListNode *mid = midNode(head);
+        ListNode *tail = reverseList(mid);
+
+        while (head != tail && tail != nullptr)
+        {
+            if (head->val != tail->val)
+                return false;
+
+            head = head->next;
+            tail = tail->next;
+        }
+
+        return true;
+    }
+
+    ListNode *midNode(ListNode *head)
+    {
         ListNode *slow = head;
         ListNode *fast = head;
-        ListNode *temp = head;
 
         while (fast != nullptr && fast->next != nullptr)
         {
-            temp = slow;
             slow = slow->next;
             fast = fast->next->next;
         }
-        temp->next = nullptr;
-
-        return merge(sortList(head), sortList(slow));
+        return slow;
     }
 
-    ListNode *merge(ListNode *l1, ListNode *l2)
+    ListNode *reverseList(ListNode *head)
     {
-        ListNode *l = new ListNode(0);
-        ListNode *p = l;
-        while (l1 != nullptr && l2 != nullptr)
-        {
-            if (l1->val < l2->val)
-            {
-                p->next = l1;
-                l1 = l1->next;
-            }
-            else
-            {
-                p->next = l2;
-                l2 = l2->next;
-            }
-            p = p->next;
-        }
-        if (l1)
-            p->next = l1;
-        else
-            p->next = l2;
+        if (head->next == nullptr)
+            return head;
 
-        return l->next;
+        ListNode *temp = head;
+        ListNode *prev = head;
+        ListNode *cur = head->next;
+
+        while (cur != nullptr)
+        {
+            prev = cur;
+            cur = cur->next;
+            prev->next = head;
+            head = prev;
+        }
+        temp->next = nullptr;
+        return head;
     }
 };
-
-void printList(ListNode *head)
-{
-    while (head != nullptr)
-    {
-        cout << head->val << " ";
-        head = head->next;
-    }
-    cout << "\n";
-}
 
 int main()
 {
@@ -99,7 +96,7 @@ int main()
         }
     }
 
-    printList(Solution().sortList(head));
+    cout << Solution().isPalindrome(head) << "\n";
 
     return 0;
 }
