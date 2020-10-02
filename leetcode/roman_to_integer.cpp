@@ -1,7 +1,7 @@
-https : //leetcode.com/problems/roman-to-integer/
+// https://leetcode.com/problems/roman-to-integer/
 
 #include <bits/stdc++.h>
-        using namespace std;
+using namespace std;
 
 class Solution
 {
@@ -55,3 +55,4 @@ public:
         }
     }
 };
+

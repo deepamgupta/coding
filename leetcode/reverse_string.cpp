@@ -29,7 +29,8 @@ int main()
     vector<char> s(n);
     for (int i = 0; i < n; ++i)
         cin >> s[i];
-    Solution().reverseString(s);
+    Solution ref_or_name = Solution();
+    ref_or_name.reverseString(s);
 
     return 0;
 }
