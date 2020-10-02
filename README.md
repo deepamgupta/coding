@@ -1,2 +1,2 @@
 # coding
-Questions I solve on various competitive coding platforms
+Questions I solved on various competitive coding platforms.
