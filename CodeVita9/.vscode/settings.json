@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "*.html": "html",
-        "iostream": "cpp",
-        "map": "cpp"
-    },
-    "python.formatting.provider": "autopep8"
-}
